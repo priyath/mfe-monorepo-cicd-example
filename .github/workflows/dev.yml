@@ -26,3 +26,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --if-present
       - run: yarn build --if-present
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '276.0.0'
+        service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+      - run: gsutil -m rsync -d -c -r dist/bitsmedia-root-config.js gs://app-muslimpro-test-cicd

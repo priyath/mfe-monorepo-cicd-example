@@ -47,7 +47,7 @@
   <link rel="preload" href="https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js" as="script">
 
   <!-- Add your organization's prod import map URL to this script's src  -->
-  <!-- <script type="systemjs-importmap" src="/importmap.json"></script> -->
+  <script type="systemjs-importmap" src="/importmap.json"></script>
 
   <% if (isLocal) { %>
   <script type="systemjs-importmap">
@@ -59,16 +59,6 @@
       }
     }
   </script>
-  <% } else { %>
-    <script type="systemjs-importmap">
-      {
-        "imports": {
-          "@bitsmedia/root-config": "https://storage.googleapis.com/app-muslimpro-test-cicd/bitsmedia-root-config.js",
-          "@bitsmedia/my-app1": "https://storage.googleapis.com/app-muslimpro-test-cicd/bitsmedia-root-config.js",
-          "@bitsmedia/navbar": "https://storage.googleapis.com/app-muslimpro-test-cicd/bitsmedia-root-config.js"
-        }
-      }
-    </script>
   <% } %>
 
   <!--

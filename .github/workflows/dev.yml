@@ -1,28 +1,28 @@
 name: MFE DEV CI
-  on:
-    push:
-      branches: [deploy]
-      paths:
-        - 'packages/root-config/**'
+on:
+  push:
+    branches: [deploy]
+    paths:
+      - 'packages/root-config/**'
 
-  jobs:
-    build:
+jobs:
+  build:
 
-      runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-      strategy:
-        matrix:
-          node-version: [ 14.x ]
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
 
-      defaults:
-        run:
-          working-directory: ./packages/root-config
+    defaults:
+      run:
+        working-directory: ./packages/root-config
 
-      steps:
-        - uses: actions/checkout@v2
-        - name: Use Node.js ${{ matrix.node-version }}
-          uses: actions/setup-node@v1
-          with:
-            node-version: ${{ matrix.node-version }}
-        - run: yarn install --if-present
-        - run: yarn build --if-present
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install --if-present
+      - run: yarn build --if-present

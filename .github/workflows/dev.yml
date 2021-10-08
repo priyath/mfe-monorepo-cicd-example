@@ -26,7 +26,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --if-present
       - run: yarn build --if-present
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - uses: google-github-actions/setup-gcloud@master
         with:
           version: '276.0.0'
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}

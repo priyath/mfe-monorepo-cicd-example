@@ -33,5 +33,5 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
       - run: gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd
       - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/**/*.html
-      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/js/*.js
-      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/css/*.css
+      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/**/*.js
+      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/**/*.css

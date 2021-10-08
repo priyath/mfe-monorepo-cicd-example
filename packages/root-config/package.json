@@ -6,7 +6,7 @@
     "test": "cross-env BABEL_ENV=test jest --passWithNoTests",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
-    "prepare": "cd ../.. && husky install root-config/.husky",
+    "prepare": "cd ../.. && husky install packages/root-config/.husky",
     "build": "concurrently yarn:build:*",
     "build:webpack": "webpack --mode=production",
     "build:types": "tsc"

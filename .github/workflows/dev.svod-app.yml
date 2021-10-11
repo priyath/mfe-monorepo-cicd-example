@@ -1,9 +1,9 @@
-name: DEV CI SOVD APP
+name: DEV CI SVOD APP
 on:
   push:
     branches: [deploy]
     paths:
-      - 'packages/sovd-app/**'
+      - 'packages/svod-app/**'
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./packages/root-config
+        working-directory: ./packages/svod-app
 
     steps:
       - uses: actions/checkout@v2

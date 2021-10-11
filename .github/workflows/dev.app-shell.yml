@@ -16,7 +16,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./packages/root-config
+        working-directory: ./packages/app-shell
 
     steps:
       - uses: actions/checkout@v2

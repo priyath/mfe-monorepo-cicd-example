@@ -1,9 +1,9 @@
-name: MFE DEV CI
+name: DEV CI SOVD APP
 on:
   push:
     branches: [deploy]
     paths:
-      - 'packages/root-config/**'
+      - 'packages/sovd-app/**'
 
 jobs:
   build:

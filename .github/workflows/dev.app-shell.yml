@@ -1,0 +1,36 @@
+name: DEV CI APP SHELL
+on:
+  push:
+    branches: [deploy]
+    paths:
+      - 'packages/app-shell/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
+
+    defaults:
+      run:
+        working-directory: ./packages/root-config
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install --if-present
+      - run: yarn build --if-present
+      - uses: google-github-actions/setup-gcloud@master
+        with:
+          version: '276.0.0'
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+      - run: gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd
+      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/**/*.html
+      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/**/*.js

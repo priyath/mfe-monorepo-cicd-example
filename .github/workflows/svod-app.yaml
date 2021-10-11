@@ -32,6 +32,6 @@ jobs:
           version: '276.0.0'
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
-      - run: gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/root-config
-      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/root-config/**/*.html 2> /dev/null || true
-      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/root-config/**/*.js 2> /dev/null || true
+      - run: gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/svod-app
+      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/svod-app/**/*.html 2> /dev/null || true
+      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/svod-app/**/*.js 2> /dev/null || true

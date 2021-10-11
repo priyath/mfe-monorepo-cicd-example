@@ -1,9 +1,10 @@
-name: DEV CI SVOD APP
+name: "app-shell"
 on:
   push:
     branches: [deploy]
     paths:
-      - 'packages/svod-app/**'
+      - "packages/app-shell/**"
+      - ".github/workflows/app-shell.yaml"
 
 jobs:
   build:
@@ -16,7 +17,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./packages/svod-app
+        working-directory: ./packages/app-shell
 
     steps:
       - uses: actions/checkout@v2
@@ -31,5 +32,6 @@ jobs:
           version: '276.0.0'
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
-      - run: gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/svod-app
-      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/svod-app/**/*.js
+      - run: gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/root-config
+      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/root-config/**/*.html
+      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/root-config/**/*.js

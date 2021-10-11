@@ -1,9 +1,10 @@
-name: DEV CI ROOT CONFIG
+name: "svod-app"
 on:
   push:
     branches: [deploy]
     paths:
-      - 'packages/root-config/**'
+      - "packages/svod-app/**"
+      - ".github/workflows/svod-app.yaml"
 
 jobs:
   build:
@@ -16,7 +17,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./packages/root-config
+        working-directory: ./packages/svod-app
 
     steps:
       - uses: actions/checkout@v2

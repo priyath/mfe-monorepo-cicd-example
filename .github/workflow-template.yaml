@@ -1,9 +1,10 @@
-name: DEV CI APP SHELL
+name: "{{APP}}"
 on:
   push:
     branches: [deploy]
     paths:
-      - 'packages/app-shell/**'
+      - "packages/{{APP}}/**"
+      - ".github/workflows/{{APP}}.yaml"
 
 jobs:
   build:
@@ -16,7 +17,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./packages/app-shell
+        working-directory: ./packages/{{APP}}
 
     steps:
       - uses: actions/checkout@v2
@@ -31,5 +32,6 @@ jobs:
           version: '276.0.0'
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
-      - run: gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/app-shell
-      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/app-shell/**/*.js
+      - run: gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/root-config
+      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/root-config/**/*.html
+      - run: gsutil -m setmeta -h "Cache-Control:public, max-age=1" gs://app-muslimpro-test-cicd/root-config/**/*.js

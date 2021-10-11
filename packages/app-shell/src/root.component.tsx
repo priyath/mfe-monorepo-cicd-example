@@ -3,7 +3,7 @@ import { Link, navigate } from "@reach/router";
 
 export default function Root(props) {
 
-  // test comment 1
+  // test comment 2
   return (
     <div className="navbar navbar-dark bg-dark navbar-expand-lg">
       {(

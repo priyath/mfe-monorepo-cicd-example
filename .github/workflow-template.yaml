@@ -33,3 +33,5 @@ jobs:
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
       - run: gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/{{APP}}/$GITHUB_SHA
+      - run: |
+          curl -d '{ "service":"@bitsmedia/{{APP}}","url":"http://example.com/my-service.js" }' -X PATCH https://import-map-deployer-syuuraqtba-uc.a.run.app/import-map.json\?env=test\&skip_url_check -H "Accept: application/json" -H "Content-Type: application/json"

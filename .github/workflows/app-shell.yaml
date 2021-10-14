@@ -34,4 +34,4 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
       - run: gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/app-shell/$GITHUB_SHA
       - run: |
-          curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" -d '{ "service":"@bitsmedia/app-shell","url":"https://storage.googleapis.com/app-muslimpro-test-cicd/app-shell/$GITHUB_SHA/bitsmedia-app-shell.js" }' -X PATCH https://import-map-deployer-syuuraqtba-uc.a.run.app/import-map.json\?env=test\&skip_url_check -H "Accept: application/json" -H "Content-Type: application/json"
+          curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" -d '{ "service":"@bitsmedia/app-shell","url":"https://storage.googleapis.com/app-muslimpro-test-cicd/app-shell/$GITHUB_SHA/bitsmedia-app-shell.js" }' -X PATCH https://import-map-deployer-syuuraqtba-uc.a.run.app/services\?env=test\&skip_url_check -H "Accept: application/json" -H "Content-Type: application/json"

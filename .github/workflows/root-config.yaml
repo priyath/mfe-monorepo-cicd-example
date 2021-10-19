@@ -8,13 +8,10 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [ 14.x ]
-
     defaults:
       run:
         working-directory: ./packages/root-config
@@ -39,9 +36,13 @@ jobs:
   deploy-dev:
     needs: build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/root-config
     environment:
       name: Development
       url: https://github.com
+
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v2

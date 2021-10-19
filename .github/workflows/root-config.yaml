@@ -1,7 +1,9 @@
 name: "root-config"
 on:
   push:
-    branches: [deploy, main]
+    branches: [main]
+  pull_request:
+    branches: [main]
     paths:
       - "packages/root-config/**"
       - ".github/workflows/root-config.yaml"
@@ -34,7 +36,8 @@ jobs:
           retention-days: 7
 
   deploy-dev:
-    needs: build
+    if: github.event_name == 'pull_request'
+    needs: [build]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -61,7 +64,8 @@ jobs:
           curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" -d '{ "service":"@bitsmedia/root-config","url":"https://storage.googleapis.com/app-muslimpro-test-cicd/root-config/'"$GITHUB_SHA"'/bitsmedia-root-config.js" }' -X PATCH https://import-map-deployer-syuuraqtba-uc.a.run.app/services\?env=test\&skip_url_check -H "Accept: application/json" -H "Content-Type: application/json"
 
   deploy-staging:
-    needs: deploy-dev
+    needs: [build]
+    if: github.event.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     defaults:
       run:

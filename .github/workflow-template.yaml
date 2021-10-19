@@ -26,11 +26,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-      - run: |
+        run: |
           yarn install --if-present
           yarn build --if-present
       - name: Upload build artifact
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: app-build
           path: dist
@@ -49,7 +49,7 @@ jobs:
           name: app-build
           path: dist
       - name: Dev deployment to GCP
-      - uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@master
         with:
           version: '276.0.0'
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}

@@ -2,6 +2,8 @@ name: "root-config"
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
     paths:
       - "packages/root-config/**"
       - ".github/workflows/root-config.yaml"

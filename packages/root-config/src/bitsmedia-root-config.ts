@@ -7,6 +7,7 @@ import {
 
 const routes = constructRoutes(document.querySelector("#single-spa-layout"));
 const applications = constructApplications({
+  // test comment to trigger a deployment
   routes,
   loadApp({ name }) {
     return System.import(name);

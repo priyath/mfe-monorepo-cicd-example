@@ -59,6 +59,16 @@
       }
     }
   </script>
+  <% } else { %>
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "@bitsmedia/root-config": "https://storage.googleapis.com/app-muslimpro-test-cicd/root-config/bitsmedia-root-config.js",
+          "@bitsmedia/my-app1": "https://storage.googleapis.com/app-muslimpro-test-cicd/svod-app/bitsmedia-my-app1.js",
+          "@bitsmedia/navbar": "https://storage.googleapis.com/app-muslimpro-test-cicd/app-shell/bitsmedia-navbar.js"
+        }
+      }
+    </script>
   <% } %>
 
   <!--

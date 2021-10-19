@@ -56,7 +56,7 @@ jobs:
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
       - name: Update import map deployer
-      - run: |
+        run: |
           gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/root-config/$GITHUB_SHA
           curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" -d '{ "service":"@bitsmedia/root-config","url":"https://storage.googleapis.com/app-muslimpro-test-cicd/root-config/'"$GITHUB_SHA"'/bitsmedia-root-config.js" }' -X PATCH https://import-map-deployer-syuuraqtba-uc.a.run.app/services\?env=test\&skip_url_check -H "Accept: application/json" -H "Content-Type: application/json"
 
@@ -83,6 +83,6 @@ jobs:
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
       - name: Update import map deployer
-      - run: |
+        run: |
           gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/root-config/$GITHUB_SHA
           curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" -d '{ "service":"@bitsmedia/root-config","url":"https://storage.googleapis.com/app-muslimpro-test-cicd/root-config/'"$GITHUB_SHA"'/bitsmedia-root-config.js" }' -X PATCH https://import-map-deployer-syuuraqtba-uc.a.run.app/services\?env=test\&skip_url_check -H "Accept: application/json" -H "Content-Type: application/json"

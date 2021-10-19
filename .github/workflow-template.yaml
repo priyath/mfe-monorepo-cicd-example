@@ -22,10 +22,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install dependencies and build
-        run: |
-          yarn install --if-present
-          yarn build --if-present
+      - name: Install dependencies
+        run: yarn install --if-present
+      - name: Build
+        run: yarn build --if-present
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
@@ -49,12 +49,40 @@ jobs:
         with:
           name: app-build
           path: ./packages/{{APP}}/dist
-      - name: Dev deployment to GCP
+      - name: Dev deployment to GCP storage
         uses: google-github-actions/setup-gcloud@master
         with:
           version: '276.0.0'
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
+      - name: Update import map deployer
+      - run: |
+          gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/{{APP}}/$GITHUB_SHA
+          curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" -d '{ "service":"@bitsmedia/{{APP}}","url":"https://storage.googleapis.com/app-muslimpro-test-cicd/{{APP}}/'"$GITHUB_SHA"'/bitsmedia-{{APP}}.js" }' -X PATCH https://import-map-deployer-syuuraqtba-uc.a.run.app/services\?env=test\&skip_url_check -H "Accept: application/json" -H "Content-Type: application/json"
+
+  deploy-staging:
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/{{APP}}
+    environment:
+      name: Staging
+      url: https://github.com
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: app-build
+          path: ./packages/{{APP}}/dist
+      - name: Dev deployment to GCP storage
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: '276.0.0'
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+      - name: Update import map deployer
       - run: |
           gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/{{APP}}/$GITHUB_SHA
           curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" -d '{ "service":"@bitsmedia/{{APP}}","url":"https://storage.googleapis.com/app-muslimpro-test-cicd/{{APP}}/'"$GITHUB_SHA"'/bitsmedia-{{APP}}.js" }' -X PATCH https://import-map-deployer-syuuraqtba-uc.a.run.app/services\?env=test\&skip_url_check -H "Accept: application/json" -H "Content-Type: application/json"

@@ -1,7 +1,7 @@
 name: "{{APP}}"
 on:
   push:
-    branches: [deploy]
+    branches: [deploy, main]
     paths:
       - "packages/{{APP}}/**"
       - ".github/workflows/{{APP}}.yaml"
@@ -25,13 +25,35 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install --if-present
-      - run: yarn build --if-present
+      - name: Install dependencies
+      - run: |
+          yarn install --if-present
+          yarn build --if-present
+      - name: Upload build artifact
+      - uses: actions/upload-artifact@v2
+        with:
+          name: app-build
+          path: dist
+          retention-days: 7
+
+  deploy-dev:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: Development
+      url: https://github.com
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: app-build
+          path: dist
+      - name: Dev deployment to GCP
       - uses: google-github-actions/setup-gcloud@master
         with:
           version: '276.0.0'
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
-      - run: gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/{{APP}}/$GITHUB_SHA
       - run: |
+          gsutil -m rsync -d -c -r dist gs://app-muslimpro-test-cicd/{{APP}}/$GITHUB_SHA
           curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" -d '{ "service":"@bitsmedia/{{APP}}","url":"https://storage.googleapis.com/app-muslimpro-test-cicd/{{APP}}/'"$GITHUB_SHA"'/bitsmedia-{{APP}}.js" }' -X PATCH https://import-map-deployer-syuuraqtba-uc.a.run.app/services\?env=test\&skip_url_check -H "Accept: application/json" -H "Content-Type: application/json"

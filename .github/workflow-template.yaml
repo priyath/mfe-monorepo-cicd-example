@@ -2,6 +2,9 @@ name: "{{APP}}"
 on:
   push:
     branches: [main]
+    paths:
+      - "packages/{{APP}}/**"
+      - ".github/workflows/{{APP}}.yaml"
   pull_request:
     branches: [main]
     paths:

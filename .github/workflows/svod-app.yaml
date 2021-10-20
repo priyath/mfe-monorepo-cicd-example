@@ -2,6 +2,9 @@ name: "svod-app"
 on:
   push:
     branches: [main]
+    paths:
+      - "packages/svod-app/**"
+      - ".github/workflows/svod-app.yaml"
   pull_request:
     branches: [main]
     paths:
